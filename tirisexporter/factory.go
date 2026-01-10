@@ -20,7 +20,8 @@ func NewFactory() exporter.Factory {
 		component.MustNewType(typeStr),
 		createDefaultConfig,
 		exporter.WithLogs(createLogsExporter, stability),
-		// Future: Add WithMetrics and WithTraces
+		exporter.WithMetrics(createMetricsExporter, stability),
+		exporter.WithTraces(createTracesExporter, stability),
 	)
 }
 
