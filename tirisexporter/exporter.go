@@ -81,6 +81,13 @@ func (e *tirisExporter) sendOTLP(ctx context.Context, endpoint string, body []by
 	req.Header.Set("Content-Type", "application/x-protobuf")
 	req.Header.Set("Authorization", "Snowflake Token=\""+token+"\"")
 
+	// Add custom headers from config
+	for key, val := range e.config.Headers {
+		if string(val) != "" {
+			req.Header.Set(key, string(val))
+		}
+	}
+
 	e.logger.Info("Sending OTLP request",
 		zap.String("url", fullURL),
 		zap.Int("body_size", len(body)),
